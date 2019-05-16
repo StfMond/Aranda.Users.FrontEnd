@@ -1,0 +1,143 @@
+<p *ngIf="!users"><em>Loading...</em></p>
+
+<div class="card" *ngIf="isValidRol('UsersList')">
+  <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Users</h3>
+  <div class="card-body">
+    <div id="table" class="app-users">
+      <div class="form-row">
+        <span class="table-add float-right mb-3 mr-2">
+          <button class="btn btn-primary btn-md" type="submit" *ngIf="isValidRol('CreateUsers')" (click)="addForm()">Add</button>
+        </span>
+      </div>
+      <br />
+      <div>
+        <form (submit)="save()" *ngIf="addUserComponent">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" [(ngModel)]="selectedUser.name" class="form-control" placeholder="Name" required autofocus>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="password">Password</label>
+              <input type="text" id="password" name="password" [(ngModel)]="selectedUser.password" class="form-control" placeholder="password" required autofocus>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="fullName">FullName</label>
+              <input type="text" id="fullName" name="fullName" [(ngModel)]="selectedUser.fullName" class="form-control" placeholder="fullName" required autofocus>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="address">Address</label>
+              <input type="text" id="address" name="address" [(ngModel)]="selectedUser.address" class="form-control" placeholder="Address" required autofocus>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="telephone">Telephone</label>
+              <input type="number" id="telephone" name="telephone" [(ngModel)]="selectedUser.telephone" class="form-control" placeholder="Telephone" required autofocus>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" [(ngModel)]="selectedUser.email" class="form-control" placeholder="Email" required autofocus>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="age">Age</label>
+              <input type="number" id="age" name="age" [(ngModel)]="selectedUser.age" class="form-control" placeholder="Age" required autofocus>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="ddlRole">Role</label>
+              <select id="ddlRole"
+                      [(ngModel)]="selectedUser.roleId"
+                      name='ddlRoleCode'>
+                <option value='null'>Choose...</option>
+                <option class='option'
+                        *ngFor="let rol of roles"
+                        [ngValue]="rol.id">
+                  {{ rol.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <br />
+          <button class="btn btn-primary btn-block" type="submit">Save</button>
+          <br />
+        </form>
+      </div>
+      <br />
+      <h1></h1>
+      <div>
+        <form (submit)="filterUser()">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="nameFilter">Email</label>
+              <input type="text" id="nameFilter" name="nameFilter" [(ngModel)]="filter.name" class="form-control" placeholder="Name" required autofocus>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="ddlRoleFilter">Rol</label><br />
+              <select id="ddlRoleFilter"
+                      [(ngModel)]="filter.roleId"
+                      name='ddlRoleCode'>
+                <option value='null'>Choose...</option>
+                <option class='option'
+                        *ngFor="let rol of roles"
+                        [ngValue]="rol.id">
+                  {{ rol.name }}
+                </option>
+              </select>
+              <button class="btn btn-primary btn-md" type="submit">Filter</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <br />
+      <table class="table table-bordered table-responsive-md table-striped text-center">
+        <tr>
+          <th class="text-center">Name</th>
+          <th class="text-center">FullName</th>
+          <th class="text-center">Address</th>
+          <th class="text-center">Telephone</th>
+          <th class="text-center">Email</th>
+          <th class="text-center">Age</th>
+          <th class="text-center">Role</th>
+          <th class="text-center"></th>
+        </tr>
+        <tr *ngFor="let user of users; let idx = index">
+          <td>
+            <span contenteditable="true">{{user.name}}</span>
+          </td>
+          <td>
+            <span contenteditable="true">{{user.fullName}}</span>
+          </td>
+          <td>
+            <span contenteditable="true">{{user.address}}</span>
+          </td>
+          <td>
+            <span contenteditable="true">{{user.telephone}}</span>
+          </td>
+          <td>
+            <span contenteditable="true">{{user.email}}</span>
+          </td>
+          <td>
+            <span contenteditable="true">{{user.age}}</span>
+          </td>
+          <td>
+            <span contenteditable="true">{{user.role.name}}</span>
+          </td>
+          <td>
+            <span class="table-edit" *ngIf="isValidRol('EditUsers')">
+              <button type="button" mdbBtn color="danger" rounded="true" size="sm" class="my-0" (click)="editUser(idx)">Edit</button>
+            </span>
+            <span class="table-remove" *ngIf="isValidRol('DeleteUsers')">
+              <button type="button" mdbBtn color="danger" rounded="true" size="sm" class="my-0" (click)="remove(idx,user.id)">Remove</button>
+            </span>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
